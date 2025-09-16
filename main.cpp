@@ -4,56 +4,64 @@
 
 //прочитать файл
 
+
+
+void parseClass(const std::string& headerFile);
+
+
 void readFromFile(const char* fileName, std::string& out) {
 
-    std::ifstream file{fileName};
+	std::ifstream file{fileName};
+	
+	if (!file) {
+		std::cout << "WHERE IS A FILE?" << std::endl;
+		std::cerr << "I'M NOT ABBLE TO OPEN THIS SHIT" << std::endl;
+		return; 
+	}
+	
+	std::string readedLine{};
+	//while(std::getline(file, readedLine)) {
+	//	out.append(readedLine + '\n');
+	//}
 
-    if (!file) {
-        std::cout << "WHERE IS A FILE?" << std::endl;
-        std::cerr << "I'M NOT ABBLE TO OPEN THIS SHIT" << std::endl;
-        return; 
-    }
+	char ch{'0'};
 
-    std::string readedLine{};
-    while(std::getline(file, readedLine)) {
-        out.append(readedLine + '\n');
-    }
+	while(file.get(ch)) {
+		out.push_back(ch);
+	}
 
-    
-    file.close();
+	file.close();
 }
 
-
-
 int main(int argc, char** argv) {
+	
+	
+	
+	std::cout << "Количество аргументов = " << argc << std::endl;
+	std::cout << std::endl;
+	
+	if (argc > 1) {
+		
+		const int argumentsCount = argc;
+		char** begin = argv;
+		char** end = argv + 1;
+		
+		
+		std::cout << "Lets READ a file with name " << argv[1] << std::endl;
+		std::cout << std::endl;
+		
+		std::string outFrom{};		
+		readFromFile(argv[1], outFrom); //Читаем файл
 
-
-    std::cout << "Количество аргументов = " << argc << std::endl;
-
-    if (argc > 1) {
-
-        const int argumentsCount = argc;
-
-        char** begin = argv;
-        char** end = argv + 1;
-
-        std::cout << "Lets READ a file with name " << argv[1] << std::endl;
-
-        std::string outFrom{};
-        readFromFile(argv[1], outFrom);
-
-        std::cout << outFrom << std::endl;
-
-
-        //Читаем файл
-        //Выводим на экран
-        //Парсим
-
-    } else {
-        std::cout << "Exit" << std::endl;
-        exit(1);
-    }
-
-    
-    return 0;
+		//std::cout << outFrom << std::endl; //Выводим на экран        
+		
+		parseClass(outFrom);
+		
+		//Парсим
+	} else {
+		std::cout << "Exit" << std::endl;
+		exit(1);
+	}
+	
+	return 0;
 }
