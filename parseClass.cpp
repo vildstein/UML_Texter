@@ -1,15 +1,14 @@
- #include <iostream>
- #include <vector>
- #include <string> 
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
 
 
-bool isStartsWithCharacters(const char ch, const std::string string) {
+bool isStartsWithCharactersAndNotEmpty(const char ch, const std::string& string) {
     auto result{false};
 
     if (!string.empty()) {
         if (string.at(0) == ch) {
-            //std::cout << "CHAR CHAR CHAR CHAR = " << ch << " ";
-            //std::cout << "string string string string = " << string.at(0) << std::endl;
             result = true;
         }
     }
@@ -27,33 +26,31 @@ void parseClass(const std::string& headerFile) {
         if (ch != char('\n')) {
             str.push_back(ch);            
         } else {        
-            if (!str.empty()/* && !isStartsWithCharacters(char('#'), str)*/) {
+            if (!str.empty()) {
                 stringVector.push_back(str);
                 str.clear();
             }
         }
     }
 
+    //Удалить макросы препроцессора
+    for (auto& string : stringVector) {
+        if (isStartsWithCharactersAndNotEmpty('#',string)) {
+            string.clear();
+        }
+    }
+
+    //Remove empty strings
+    auto isStringEmpty = [&](std::string& str)->bool { return str.empty() ;};
+    const auto removeIt = std::remove_if(stringVector.begin(), stringVector.end(),isStringEmpty);
+    stringVector.erase(removeIt, stringVector.end());
+
+    for (const auto& string : stringVector) {
+        std::cout << string << std::endl;
+    }
 
 
 
-
-   
-   
-   for (const auto& str : stringVector) {
-        std::cout << str << std::endl;
-   }
-
-
-
-
-   //Удалить макросы препроцессора
-
-
-
-
-   
-   
     //Найти правильное имя класса
 
    /*std::string str{};

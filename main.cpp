@@ -33,9 +33,7 @@ void readFromFile(const char* fileName, std::string& out) {
 	file.close();
 }
 
-int main(int argc, char** argv) {
-	
-	
+int main(const int argc, char** argv) {
 	
 	std::cout << "Количество аргументов = " << argc << std::endl;
 	std::cout << std::endl;
@@ -45,7 +43,6 @@ int main(int argc, char** argv) {
 		const int argumentsCount = argc;
 		char** begin = argv;
 		char** end = argv + 1;
-		
 		
 		std::cout << "Lets READ a file with name " << argv[1] << std::endl;
 		std::cout << std::endl;
